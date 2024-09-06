@@ -54,5 +54,13 @@ public class PessoaForm {
         this.nome = pessoa.getNome();
         this.nascimento = pessoa.getNascimento();
         this.sexo = pessoa.getSexo().getCodigo();
+        this.deficiencia = pessoa.getDeficiencia();
+        this.cep = pessoa.getEndereco().getCep();
+        this.uf = pessoa.getEndereco().getEstado().getSigla();
+        this.cidade = pessoa.getEndereco().getCidade().getNome();
+        this.bairro = pessoa.getEndereco().getBairro().getNome();
+        this.logradouro = pessoa.getEndereco().getLogradouro();
+        this.numero = pessoa.getEndereco().getNumero();
+        this.complemento = pessoa.getEndereco().getComplemento();
     }
 }
