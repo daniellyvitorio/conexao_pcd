@@ -96,27 +96,33 @@ public class PessoaController {
     @GetMapping("/pessoa/visualizar/{id}")
     public String visualizar(@PathVariable Long id, Model model){
         Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-
         PessoaForm pessoaForm = new PessoaForm(pessoa.get());
+        
+        List<Deficiencia> listaDeficiencias = deficienciaRepository.findAll();
+        pessoaForm.setListDeficiencias(listaDeficiencias);
 
         model.addAttribute("pessoaForm", pessoaForm);
         model.addAttribute("id", pessoa.get().getId());
 
-        return "/pessoa/visualizar";
+        return "pessoa/visualizar";
     }
     
     @PostMapping("/pessoa/update/{id}")
-    public String update(
-        @PathVariable Long id, 
-        @Valid PessoaForm pessoaForm, 
-        BindingResult bindingResult, 
-        Model model, 
-        RedirectAttributes redirectAttributes
+    public String update(@PathVariable Long id, @Valid PessoaForm pessoaForm, BindingResult bindingResult, 
+    Model model, 
+    RedirectAttributes redirectAttributes
+ 
     ){
+        List<Deficiencia> listaDeficiencias = deficienciaRepository.findAll();
+        pessoaForm.setListDeficiencias(listaDeficiencias);
+
+        model.addAttribute("pessoaForm", pessoaForm);
         if(bindingResult.hasErrors()){
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "/pessoa/update";
         }
+
+        pessoaService.update(pessoaForm, id);
 
         // Pessoa pessoa = pessoaForm.toEntity();
         // pessoa.setId(id);
